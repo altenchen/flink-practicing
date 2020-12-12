@@ -1,6 +1,8 @@
 package self.practice.agg;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.flink.api.common.functions.AggregateFunction;
+import org.apache.flink.api.common.restartstrategy.RestartStrategies;
 import org.apache.flink.api.common.typeinfo.TypeHint;
 import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.apache.flink.api.java.tuple.Tuple2;
@@ -17,15 +19,24 @@ import self.practice.kafkaSource.config.KafkaClient;
  * @time 2020/12/12
  * @description 功能
  */
+@Slf4j
 public class UdfAggregaeFunction {
     
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
+        env.getConfig().setRestartStrategy(RestartStrategies.fixedDelayRestart(20, 5000));
         
         DataStreamSource<String> kafkaSource = env.addSource(KafkaClient.getKafkaConsumer(), "kafka_source");
     
         SingleOutputStreamOperator<Tuple2<String, Integer>> mapStream = kafkaSource
-                .map(record -> new Tuple2<>(record.split(",")[0], Integer.valueOf(record.split(",")[1])))
+                .map(record ->
+                {
+                    String[] split = record.split(",");
+                    String key = split[0];
+                    String value = split[1];
+                    log.info("consumed records: key = [{}], record = [{}]", key, value);
+                    return new Tuple2<>(key, Integer.valueOf(value));
+                })
                 .returns(new TypeHint<Tuple2<String, Integer>>() {
                     @Override
                     public TypeInformation<Tuple2<String, Integer>> getTypeInfo() {
@@ -33,7 +44,7 @@ public class UdfAggregaeFunction {
                     }
                 });
     
-        SingleOutputStreamOperator<Double> aggregate = mapStream.keyBy(0)
+        SingleOutputStreamOperator<Tuple2<String, Double>> aggregate = mapStream.keyBy(0)
                 .window(TumblingProcessingTimeWindows.of(Time.seconds(10)))
                 .aggregate(new AverageAggregate());
         
@@ -41,18 +52,6 @@ public class UdfAggregaeFunction {
         
         env.execute("AverageAggregate");
     }
-    
-    
-    
-    public static final Tuple2[] scores = new Tuple2[]{
-            Tuple2.of("Kobe", 32),
-            Tuple2.of("JORDAN", 12),
-            Tuple2.of("JAMES", 22),
-            Tuple2.of("Kobe", 32),
-            Tuple2.of("AVERSION", 22),
-            Tuple2.of("Kobe", 112),
-            Tuple2.of("JAMES", 62),
-            Tuple2.of("JORDAN", 23)
-    };
+  
     
 }
