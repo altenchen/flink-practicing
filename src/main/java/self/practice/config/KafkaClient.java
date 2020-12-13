@@ -1,4 +1,4 @@
-package self.practice.kafkaSource.config;
+package self.practice.config;
 
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer;
@@ -51,7 +51,7 @@ public class KafkaClient {
      * @return
      */
     public static FlinkKafkaProducer<String> getKafkaProducer() {
-        FlinkKafkaProducer myProducer = new FlinkKafkaProducer<>(PropertiesUtil.getStringValue("kafka.bootstrap.servers"), PropertiesUtil.getStringValue("kafka.out.topic"), new SimpleStringSchema());
+        FlinkKafkaProducer myProducer = new FlinkKafkaProducer<>(PropertiesUtil.getStringValue("kafka.bootstrap.servers"), PropertiesUtil.getStringValue("kafka.source.topic"), new SimpleStringSchema());
         return myProducer;
     }
 

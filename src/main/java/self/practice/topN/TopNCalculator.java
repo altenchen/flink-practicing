@@ -22,7 +22,7 @@ import org.apache.flink.streaming.connectors.redis.common.mapper.RedisCommand;
 import org.apache.flink.streaming.connectors.redis.common.mapper.RedisCommandDescription;
 import org.apache.flink.streaming.connectors.redis.common.mapper.RedisMapper;
 import org.apache.flink.util.Collector;
-import self.practice.kafkaSource.config.KafkaClient;
+import self.practice.config.KafkaClient;
 
 import javax.annotation.Nullable;
 import java.util.Comparator;

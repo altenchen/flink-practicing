@@ -1,17 +1,19 @@
 package self.practice.agg;
 
+import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.flink.api.common.functions.FlatMapFunction;
 import org.apache.flink.api.common.restartstrategy.RestartStrategies;
-import org.apache.flink.api.common.typeinfo.TypeHint;
-import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.windowing.assigners.TumblingProcessingTimeWindows;
 import org.apache.flink.streaming.api.windowing.time.Time;
+import org.apache.flink.util.Collector;
 import self.practice.func.AverageAggregate;
-import self.practice.kafkaSource.config.KafkaClient;
+import self.practice.config.KafkaClient;
+import java.util.Map;
 
 /**
  * @author altenchen
@@ -26,23 +28,10 @@ public class UdfAggregaeFunction {
         env.getConfig().setRestartStrategy(RestartStrategies.fixedDelayRestart(20, 5000));
         
         DataStreamSource<String> kafkaSource = env.addSource(KafkaClient.getKafkaConsumer(), "kafka_source");
-    
+
         SingleOutputStreamOperator<Tuple2<String, Integer>> mapStream = kafkaSource
-                .map(record ->
-                {
-                    String[] split = record.split(",");
-                    String key = split[0];
-                    String value = split[1];
-                    log.info("consumed records: key = [{}], record = [{}]", key, value);
-                    return new Tuple2<>(key, Integer.valueOf(value));
-                })
-                .returns(new TypeHint<Tuple2<String, Integer>>() {
-                    @Override
-                    public TypeInformation<Tuple2<String, Integer>> getTypeInfo() {
-                        return super.getTypeInfo();
-                    }
-                });
-    
+                .flatMap(new TransFlatMap());
+
         SingleOutputStreamOperator<Tuple2<String, Double>> aggregate = mapStream.keyBy(0)
                 .window(TumblingProcessingTimeWindows.of(Time.seconds(10)))
                 .aggregate(new AverageAggregate());
@@ -50,6 +39,18 @@ public class UdfAggregaeFunction {
         aggregate.printToErr();
         
         env.execute("AverageAggregate");
+    }
+
+
+    static class TransFlatMap implements FlatMapFunction<String, Tuple2<String, Integer>> {
+        @Override
+        public void flatMap(String value, Collector<Tuple2<String, Integer>> out) throws Exception {
+            Map<String, Integer> hashMap = JSONUtil.toBean(value, Map.class);
+            for (Map.Entry<String, Integer> entry : hashMap.entrySet()) {
+                log.info("consumed records: key = [{}], record = [{}]", entry.getKey(), entry.getValue());
+                out.collect(new Tuple2<String, Integer>(entry.getKey(), entry.getValue()));
+            }
+        }
     }
   
     

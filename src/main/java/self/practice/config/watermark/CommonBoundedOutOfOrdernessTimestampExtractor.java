@@ -1,4 +1,4 @@
-package self.practice.kafkaSource.config.watermark;
+package self.practice.config.watermark;
 
 import org.apache.flink.streaming.api.functions.timestamps.BoundedOutOfOrdernessTimestampExtractor;
 import org.apache.flink.streaming.api.windowing.time.Time;

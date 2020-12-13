@@ -1,4 +1,4 @@
-package self.practice.kafkaSource.config.watermark;
+package self.practice.config.watermark;
 
 /**
  * @author altenchen

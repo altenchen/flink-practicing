@@ -1,4 +1,4 @@
-package self.practice.kafkaSource.config;
+package self.practice.config;
 
 import java.io.Serializable;
 
