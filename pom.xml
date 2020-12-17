@@ -98,6 +98,13 @@
             <version>1.18.6</version>
         </dependency>
 
+        <!--写HDFS文件必备-->
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-client</artifactId>
+            <version>3.3.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>
