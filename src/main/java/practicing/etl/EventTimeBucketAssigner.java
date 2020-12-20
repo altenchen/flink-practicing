@@ -1,4 +1,4 @@
-package self.practice.etl;
+package practicing.etl;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.json.JSONUtil;

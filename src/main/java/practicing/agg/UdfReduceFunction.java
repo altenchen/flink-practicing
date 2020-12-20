@@ -1,4 +1,4 @@
-package self.practice.agg;
+package practicing.agg;
 
 import org.apache.flink.api.common.functions.ReduceFunction;
 import org.apache.flink.api.java.tuple.Tuple2;

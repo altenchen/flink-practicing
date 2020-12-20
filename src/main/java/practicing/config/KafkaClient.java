@@ -1,9 +1,9 @@
-package self.practice.config;
+package practicing.config;
 
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer;
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaProducer;
-import self.practice.util.PropertiesUtil;
+import practicing.util.PropertiesUtil;
 
 import java.util.Properties;
 

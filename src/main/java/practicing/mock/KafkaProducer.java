@@ -1,11 +1,11 @@
-package self.practice.mock;
+package practicing.mock;
 
 import org.apache.flink.streaming.api.CheckpointingMode;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaProducer;
-import self.practice.config.KafkaClient;
-import self.practice.func.MockDataSource;
+import practicing.config.KafkaClient;
+import practicing.func.MockDataSource;
 
 /**
  * @description:

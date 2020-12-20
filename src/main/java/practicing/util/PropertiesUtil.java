@@ -1,4 +1,4 @@
-package self.practice.util;
+package practicing.util;
 
 import cn.hutool.setting.dialect.Props;
 

@@ -1,4 +1,4 @@
-package self.practice.agg;
+package practicing.agg;
 
 import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -11,8 +11,9 @@ import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.windowing.assigners.TumblingProcessingTimeWindows;
 import org.apache.flink.streaming.api.windowing.time.Time;
 import org.apache.flink.util.Collector;
-import self.practice.func.AverageAggregate;
-import self.practice.config.KafkaClient;
+import practicing.config.KafkaClient;
+import practicing.func.AverageAggregate;
+
 import java.util.Map;
 
 /**

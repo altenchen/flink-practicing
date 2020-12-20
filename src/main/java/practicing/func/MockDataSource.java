@@ -1,4 +1,4 @@
-package self.practice.func;
+package practicing.func;
 
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;

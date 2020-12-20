@@ -1,4 +1,4 @@
-package self.practice.topN;
+package practicing.topN;
 
 import lombok.Data;
 

@@ -1,4 +1,4 @@
-package self.practice.func;
+package practicing.func;
 
 import org.apache.flink.api.common.functions.AggregateFunction;
 import org.apache.flink.api.java.tuple.Tuple2;

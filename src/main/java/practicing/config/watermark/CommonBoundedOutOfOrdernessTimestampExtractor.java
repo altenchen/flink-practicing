@@ -1,4 +1,4 @@
-package self.practice.config.watermark;
+package practicing.config.watermark;
 
 import org.apache.flink.streaming.api.functions.timestamps.BoundedOutOfOrdernessTimestampExtractor;
 import org.apache.flink.streaming.api.windowing.time.Time;

@@ -1,12 +1,12 @@
-package self.practice.etl;
+package practicing.etl;
 
 import org.apache.flink.api.common.serialization.SimpleStringEncoder;
 import org.apache.flink.core.fs.Path;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.sink.filesystem.StreamingFileSink;
-import self.practice.config.KafkaClient;
-import self.practice.util.PropertiesUtil;
+import practicing.config.KafkaClient;
+import practicing.util.PropertiesUtil;
 
 import java.util.concurrent.TimeUnit;
 

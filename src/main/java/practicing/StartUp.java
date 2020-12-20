@@ -1,4 +1,4 @@
-package self.practice;
+package practicing;
 
 /**
  * @author altenchen

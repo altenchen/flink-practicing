@@ -1,4 +1,4 @@
-package self.practice.topN;
+package practicing.topN;
 
 import cn.hutool.json.JSONUtil;
 import org.apache.flink.api.common.functions.ReduceFunction;
@@ -22,7 +22,7 @@ import org.apache.flink.streaming.connectors.redis.common.mapper.RedisCommand;
 import org.apache.flink.streaming.connectors.redis.common.mapper.RedisCommandDescription;
 import org.apache.flink.streaming.connectors.redis.common.mapper.RedisMapper;
 import org.apache.flink.util.Collector;
-import self.practice.config.KafkaClient;
+import practicing.config.KafkaClient;
 
 import javax.annotation.Nullable;
 import java.util.Comparator;

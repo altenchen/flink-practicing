@@ -1,4 +1,4 @@
-package self.practice.config.watermark;
+package practicing.config.watermark;
 
 /**
  * @author altenchen

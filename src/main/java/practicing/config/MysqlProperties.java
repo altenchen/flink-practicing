@@ -1,4 +1,4 @@
-package self.practice.config;
+package practicing.config;
 
 import java.io.Serializable;
 
