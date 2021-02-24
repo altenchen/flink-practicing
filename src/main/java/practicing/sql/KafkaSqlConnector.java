@@ -1,4 +1,4 @@
-package self.practice.sql;
+package practicing.sql;
 
 /**
  * @author altenchen
