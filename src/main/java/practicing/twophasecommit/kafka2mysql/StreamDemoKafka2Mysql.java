@@ -22,7 +22,7 @@ import java.util.Properties;
 public class StreamDemoKafka2Mysql {
     //topic
     private static final String topic_ExactlyOnce = "test_TwoPhaseCommit";
-    
+
     public static void main(String[] args) throws Exception {
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         //设置并行度,为了方便测试，查看消息的顺序，这里设置为1，可以更改为多并行度
@@ -41,24 +41,24 @@ public class StreamDemoKafka2Mysql {
         //表示一旦Flink程序被cancel后，会保留checkpoint数据，以便根据实际需要恢复到指定的checkpoint
         env.getCheckpointConfig().enableExternalizedCheckpoints(CheckpointConfig.ExternalizedCheckpointCleanup.RETAIN_ON_CANCELLATION);
         //设置statebackend,将检查点保存在hdfs上面，默认保存在内存中。这里先保存到本地
-        env.setStateBackend(new FsStateBackend("file:///D:/study_workspace/flink_demo/flink-java/StateBackEnd"));
-        
+        env.setStateBackend(new FsStateBackend(""));
+
         //设置kafka消费参数
         Properties properties = new Properties();
         properties.setProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "192.168.204.210:9092,192.168.204.211:9092,192.168.204.212:9092");
         properties.setProperty(ConsumerConfig.GROUP_ID_CONFIG, topic_ExactlyOnce);
-        
+
         /*SimpleStringSchema可以获取到kafka消息，JSONKeyValueDeserializationSchema可以获取都消息的key,value，metadata:topic,partition，offset等信息*/
         FlinkKafkaConsumer<String> kafkaConsumer011 = new FlinkKafkaConsumer<>(
                 topic_ExactlyOnce,
                 new SimpleStringSchema(),
                 properties);
-        
+
         //加入kafka数据源
         DataStreamSource<String> streamSource = env.addSource(kafkaConsumer011);
-        
+
         SingleOutputStreamOperator<Tuple2<String, Integer>> tupleStream = streamSource.map(str -> Tuple2.of(str, 1)).returns(Types.TUPLE(Types.STRING, Types.INT));
-        
+
         tupleStream.print();
         //数据传输到下游
         tupleStream.addSink(new MySqlTwoPhaseCommitSink()).name("MySqlTwoPhaseCommitSink");
